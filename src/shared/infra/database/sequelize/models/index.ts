@@ -2,7 +2,8 @@
 import * as fs from 'fs'
 import * as path from 'path'
 import config from '../config/config'
-import * as Sequelize from 'sequelize'
+// import { Sequelize } from 'sequelize';
+const { Sequelize } = require('sequelize');
 
 const sequelize = config.connection;
 
@@ -31,7 +32,9 @@ const createModels = () => {
   // Get all models
   const modelsList = fs.readdirSync(path.resolve(__dirname, "./"))
     .filter((t) => (~t.indexOf('.ts') || ~t.indexOf('.js')) && !~t.indexOf("index") && !~t.indexOf(".map"))
-    .map((model) => sequelize.import(__dirname + '/' + model))
+    //.map((model) => sequelize.import(__dirname + '/' + model))
+    //.map((model) => require(__dirname + '/' + model)(sequelize, Sequelize.DataTypes))
+    .map((model) => require(__dirname + '/' + model).default(sequelize, Sequelize))
 
   // Camel case the models
   for (let i = 0; i < modelsList.length; i++) {

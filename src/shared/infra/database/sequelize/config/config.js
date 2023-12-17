@@ -10,7 +10,8 @@ const {
   DDD_FORUM_DB_PROD_DB_NAME,
   NODE_ENV,
   DDD_FORUM_IS_PRODUCTION,
-  CLEARDB_DATABASE_URL
+  CLEARDB_DATABASE_URL,
+  DDD_FORUM_DB_PORT
 } = process.env;
 
 const databaseCredentials = {
@@ -19,26 +20,29 @@ const databaseCredentials = {
     "password": DDD_FORUM_DB_PASS,
     "database": DDD_FORUM_DB_DEV_DB_NAME,
     "host": DDD_FORUM_DB_HOST,
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "port": DDD_FORUM_DB_PORT
   },
   "test": {
     "username": DDD_FORUM_DB_USER,
     "password": DDD_FORUM_DB_PASS,
     "database": DDD_FORUM_DB_TEST_DB_NAME,
     "host": DDD_FORUM_DB_HOST,
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "port": DDD_FORUM_DB_PORT
   },
   "production": {
     "username": DDD_FORUM_DB_USER,
     "password": DDD_FORUM_DB_PASS,
     "database": DDD_FORUM_DB_PROD_DB_NAME,
     "host": DDD_FORUM_DB_HOST,
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "port": DDD_FORUM_DB_PORT
   }
 };
 
 const { 
-  username, password, database, host, dialect 
+  username, password, database, host, port, dialect
 } = databaseCredentials[NODE_ENV];
 
 module.exports = databaseCredentials;
@@ -52,14 +56,14 @@ module.exports.connection = DDD_FORUM_IS_PRODUCTION === "true"
   : new Sequelize(database, username, password, {
     host,
     dialect,
-    port: 3306,
+    port: port,
     dialectOptions: {
       multipleStatements: true,
     },
     pool: {
       max: 5,
       min: 0,
-      idle: 10000
+      idle: 20000
     },
     logging: false
   }

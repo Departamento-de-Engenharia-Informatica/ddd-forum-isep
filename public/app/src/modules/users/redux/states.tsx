@@ -1,8 +1,25 @@
 
+import { UserStatsDTO } from "../dtos/userStatsDTO";
 import { User } from "../models/user";
+import { UserStats } from "../models/userStats";
 
 export interface UsersState {
   user: User | {};
+  userStats: UserStatsDTO | {};
+  userStatsWithBestScore: UserStatsDTO | {};
+  userStatsWithMostPosts: UserStatsDTO | {};
+  isFetchingUserStats: boolean;
+  isFetchingUserStatsSuccess: boolean;
+  isFetchingUserStatsFailure: boolean;
+
+  isFetchingUserStatsWithBestScore: boolean;
+  isFetchingUserStatsWithBestScoreSuccess: boolean;
+  isFetchingUserStatsWithBestScoreFailure: boolean;
+
+  isFetchingUserStatsWithMostPosts: boolean;
+  isFetchingUserStatsWithMostPostsSuccess: boolean;
+  isFetchingUserStatsWithMostPostsFailure: boolean;
+
   isAuthenticated: boolean;
   isFetchingUser: boolean;
   isFetchingUserSuccess: boolean;
@@ -25,10 +42,25 @@ export interface UsersState {
 
 const initialUserState: UsersState = {
   user: {},
+  userStats: {},
+  userStatsWithBestScore: {},
+  userStatsWithMostPosts: {},
   isAuthenticated: false,
   isFetchingUser: false,
   isFetchingUserSuccess: false,
   isFetchingUserFailure: false,
+
+  isFetchingUserStats: false,
+  isFetchingUserStatsSuccess: false,
+  isFetchingUserStatsFailure: false,
+
+  isFetchingUserStatsWithBestScore: false,
+  isFetchingUserStatsWithBestScoreSuccess: false,
+  isFetchingUserStatsWithBestScoreFailure: false,
+
+  isFetchingUserStatsWithMostPosts: false,
+  isFetchingUserStatsWithMostPostsSuccess: false,
+  isFetchingUserStatsWithMostPostsFailure: false,
 
   isLoggingIn: false,
   isLoggingInSuccess: false,

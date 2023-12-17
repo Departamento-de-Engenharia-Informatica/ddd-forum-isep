@@ -7,6 +7,7 @@ export interface IMemberRepo {
   exists (userId: string): Promise<boolean>;
   getMemberByUserId (userId: string): Promise<Member>;
   getMemberIdByUserId (userId: string): Promise<MemberId>;
+  getUsernameByMemberId(memberId: string): Promise<string>;
   getMemberByUserName (username: string): Promise<Member>;
   getMemberDetailsByUserName (username: string): Promise<MemberDetails>;
   getMemberDetailsByPostLinkOrSlug (slug: string): Promise<MemberDetails>;

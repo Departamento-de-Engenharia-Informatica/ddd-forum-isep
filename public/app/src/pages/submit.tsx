@@ -18,11 +18,11 @@ import { TextUtil } from '../shared/utils/TextUtil';
 import { PostUtil } from '../modules/forum/utils/PostUtil';
 import { FullPageLoader } from '../shared/components/loader';
 import { ForumState } from '../modules/forum/redux/states';
+import { Navigate } from 'react-router-dom';
 
 interface SubmitPageProps extends usersOperators.IUserOperators, forumOperators.IForumOperations {
   users: UsersState;
   forum: ForumState;
-  history: any;
 }
 
 interface SubmitPageState {
@@ -113,7 +113,7 @@ class SubmitPage extends React.Component<SubmitPageProps, SubmitPageState> {
         autoClose: 2000
       });
       setTimeout(() => {
-        this.props.history.push('/?show=new')
+        <Navigate to='/?show=new' />
       }, 2000)
     }
   }
@@ -134,6 +134,12 @@ class SubmitPage extends React.Component<SubmitPageProps, SubmitPageState> {
   }
 
   render () {
+    const isLoggedIn = this.props.users.isAuthenticated;
+    if (!isLoggedIn) {
+      // Redirect to the login page if the user is not authenticated
+      return <Navigate to={'/'} />;
+    }
+
     return (
       <Layout>
         <div className="header-container flex flex-row flex-center flex-even">

@@ -21,7 +21,7 @@ export class ReplyToPostController extends BaseController {
     const dto: ReplyToPostDTO = {
       comment: TextUtils.sanitize(req.body.comment),
       userId: userId,
-      slug: req.query.slug
+      slug: req.query.slug as string
     }
   
     try {

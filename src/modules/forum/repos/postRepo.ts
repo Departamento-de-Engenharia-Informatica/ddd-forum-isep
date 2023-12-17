@@ -13,4 +13,7 @@ export interface IPostRepo {
   exists (postId: PostId): Promise<boolean>;
   save (post: Post): Promise<void>;
   delete (postId: PostId): Promise<void>;
+  getNumberOfPostsByMemberId(memberId: string): Promise<number>;
+  getMemberIdWithMostPosts(): Promise<string>;
+  getMemberWithMostPointsAndComments(): Promise<{ memberId: string, points: number, totalNumComments: number }>;
 }

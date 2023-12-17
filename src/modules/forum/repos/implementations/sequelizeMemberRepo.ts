@@ -8,12 +8,15 @@ import { MemberId } from "../../domain/memberId";
 import { UniqueEntityID } from "../../../../shared/domain/UniqueEntityID";
 import { MemberIdMap } from "../../mappers/memberIdMap";
 import { Op } from "sequelize"
+import { IUserRepo } from "../../../users/repos/userRepo";
 
 export class MemberRepo implements IMemberRepo {
   private models: any;
+  private userRepo: IUserRepo;
 
-  constructor (models: any) {
+  constructor (models: any, userRepo: IUserRepo) {
     this.models = models;
+    this.userRepo = userRepo;
   }
 
   private createBaseQuery (): any {
@@ -66,6 +69,20 @@ export class MemberRepo implements IMemberRepo {
     if (!found) throw new Error('Member id not found');
     return MemberIdMap.toDomain(member);
   }
+
+  public async getUsernameByMemberId(memberId: string): Promise<string> {
+    const MemberModel = this.models.Member;
+    const member = await MemberModel.findOne({ where: { member_id: memberId } });
+    if (!member) {
+        throw new Error('Member not found');
+    }
+    const userId = member.dataValues.member_base_id;
+    const user = await this.userRepo.getUserByUserId(userId);
+    if (!user) {
+        throw new Error('Username not found');
+    }
+    return user.username.value;
+}
 
   public async getMemberByUserId (userId: string): Promise<Member> {
     const MemberModel = this.models.Member;

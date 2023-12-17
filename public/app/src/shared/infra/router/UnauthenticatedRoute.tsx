@@ -1,6 +1,6 @@
 
 import React from 'react'
-import { Redirect, Route } from 'react-router-dom'
+import { Navigate, Route } from 'react-router-dom'
 //@ts-ignore
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -24,11 +24,11 @@ const UnauthenticatedRoute: React.FC<UnAuthenticatedRouteProps> = ({ users, comp
   return (
     <Route
       {...rest}
-      render={props =>
+      element={
         !isLoggedIn ? (
-          <Component {...props} />
+          <Component {...rest} />
         ) : (
-          <Redirect to={{ pathname: '/', state: { from: props.location } }} />
+          <Navigate to={{ pathname: '/' }} />
         )
       }
     />

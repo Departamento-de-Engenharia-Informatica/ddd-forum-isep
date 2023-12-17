@@ -5,7 +5,7 @@ import logo from "../../../../assets/img/logo/brick.png"
 
 const Logo = () => (
   <div className="logo-container">
-    <img src={logo}/>
+    <img src={logo} alt='logo'/>
   </div>
 )
 

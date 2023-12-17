@@ -3,10 +3,10 @@ import React from 'react';
 import { UsersState } from '../redux/states';
 import { IUserOperators } from '../redux/operators';
 import { toast } from 'react-toastify';
+import { Navigate } from 'react-router-dom';
 
 interface withLoginHandlingProps extends IUserOperators {
-  users: UsersState
-  history: any;
+  users: UsersState;
 }
 
 function withLoginHandling (WrappedComponent: any) {
@@ -23,7 +23,7 @@ function withLoginHandling (WrappedComponent: any) {
       const currentProps: withLoginHandlingProps = this.props;
       if (currentProps.users.isLoggingInSuccess && !prevProps.users.isLoggingInSuccess) {
         this.props.getUserProfile();
-        setTimeout(() => { this.props.history.push('/')}, 3000)
+        setTimeout(() => {<Navigate to="/" />}, 3000)
         return toast.success("Logged in! 🤠", {
           autoClose: 3000
         })
@@ -48,8 +48,8 @@ function withLoginHandling (WrappedComponent: any) {
     render () {
       return (
         <WrappedComponent
-          login={(u: string, p: string) => this.handleLogin(u, p)}
-          {...this.props}
+        {...this.props}
+        login={(u: string, p: string) => this.handleLogin(u, p)}
         />
       );
     }

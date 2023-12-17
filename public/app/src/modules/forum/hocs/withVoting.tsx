@@ -32,11 +32,11 @@ function withVoting (WrappedComponent: any) {
     render () {
       return (
         <WrappedComponent
+          {...this.props}
           upvoteComment={(commentId: string) => this.handleUpvoteComment(commentId)}
           downvoteComment={(commentId: string) => this.handleDownvoteComment(commentId)}
           upvotePost={(slug: string) => this.handleUpvotePost(slug)}
           downvotePost={(slug: string) => this.handleDownvotePost(slug)}
-          {...this.props}
         />
       );
     }

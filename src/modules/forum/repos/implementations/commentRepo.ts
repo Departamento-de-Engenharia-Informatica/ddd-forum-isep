@@ -17,6 +17,18 @@ export class CommentRepo implements ICommentRepo {
     this.models = models;
     this.commentVotesRepo = commentVotesRepo;
   }
+  async getNumberOfCommentsByMemberId(memberId: string): Promise<number> {
+    const CommentModel = this.models.Comment;
+    const countQuery = this.createBaseQuery();
+    countQuery.where['member_id'] = memberId;
+
+    try {
+      const count = await CommentModel.count(countQuery);
+      return count;
+    } catch (error) {
+      throw new Error(`Error while getting the number of comments for memberId ${memberId}: ${error}`);
+    }
+  }
 
   private createBaseQuery (): any {
     return {

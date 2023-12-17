@@ -7,6 +7,7 @@ import { Result } from "../../../shared/core/Result";
 import { right, left } from "../../../shared/core/Either";
 import { PostUtil } from "../utils/PostUtil";
 import { PostDTO } from "../dtos/postDTO";
+import { CommentDTO } from "../dtos/commentDTO";
 
 export interface IPostService {
   createPost (title: string, type: PostType, text?: string, link?: string): Promise<APIResponse<void>>;
@@ -38,7 +39,7 @@ export class PostService extends BaseAPI implements IPostService {
       return right(Result.ok<Post>(
         PostUtil.toViewModel(response.data.post)
       ));
-    } catch (err) {
+    } catch (err: any) {
       return left(err.response ? err.response.data.message : "Connection failed")
     }
   }
@@ -55,10 +56,24 @@ export class PostService extends BaseAPI implements IPostService {
         isAuthenticated ? auth : null
       );
 
-      return right(Result.ok<Post[]>(
-        response.data.posts.map((p: PostDTO) => PostUtil.toViewModel(p)))
-      );
-    } catch (err) {
+      // Get Post and only add number of first level comments
+      const posts: Post[] = await Promise.all(response.data.posts.map(async (p: PostDTO) => {
+        let postComment;
+        try {
+          let header = isAuthenticated ? auth : null;
+          postComment = await this.get('/comments?slug=' + p.slug, null, header);
+        } catch (error) {
+          postComment = null;
+        }
+        if (postComment) {
+          let numberOfParentComments = postComment.data.comments.filter((c: CommentDTO) => c.parentCommentId === null).length;
+          p.numComments = numberOfParentComments;
+        }
+        return PostUtil.toViewModel(p);
+      }));
+
+      return right(Result.ok<Post[]>(posts));
+    } catch (err: any) {
       return left(err.response ? err.response.data.message : "Connection failed")
     }
   }
@@ -77,7 +92,7 @@ export class PostService extends BaseAPI implements IPostService {
       return right(Result.ok<Post[]>(
         response.data.posts.map((p: PostDTO) => PostUtil.toViewModel(p)))
       );
-    } catch (err) {
+    } catch (err: any) {
       return left(err.response ? err.response.data.message : "Connection failed")
     }
   }
@@ -88,7 +103,7 @@ export class PostService extends BaseAPI implements IPostService {
         authorization: this.authService.getToken('access-token') 
       });
       return right(Result.ok<void>());
-    } catch (err) {
+    } catch (err: any) {
       return left(err.response ? err.response.data.message : "Connection failed")
     }
   }
@@ -99,7 +114,7 @@ export class PostService extends BaseAPI implements IPostService {
         authorization: this.authService.getToken('access-token') 
       });
       return right(Result.ok<void>());
-    } catch (err) {
+    } catch (err: any) {
       return left(err.response ? err.response.data.message : "Connection failed")
     }
   }
@@ -110,7 +125,7 @@ export class PostService extends BaseAPI implements IPostService {
         authorization: this.authService.getToken('access-token') 
       });
       return right(Result.ok<void>());
-    } catch (err) {
+    } catch (err: any) {
       return left(err.response ? err.response.data.message : "Connection failed")
     }
   }

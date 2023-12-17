@@ -47,3 +47,22 @@ export {
   upvoteComment,
   downvoteComment
 }
+
+const getOperators = () => ({
+  submitPost,
+  getRecentPosts,
+  getPostBySlug,
+  createReplyToPost,
+  getComments,
+  getPopularPosts,
+  getCommentByCommentId,
+  creatingReplyToComment,
+  getCommentReplies,
+  createReplyToComment,
+  downvotePost,
+  upvotePost,
+  upvoteComment,
+  downvoteComment
+});
+
+export default getOperators;

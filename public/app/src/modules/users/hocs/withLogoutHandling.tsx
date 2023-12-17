@@ -8,17 +8,17 @@ interface withLogoutHandlingProps extends IUserOperators {
   users: UsersState
 }
 
-function withLogoutHandling (WrappedComponent: any) {
+function withLogoutHandling(WrappedComponent: any) {
   class HOC extends React.Component<withLogoutHandlingProps, any> {
-    constructor (props: withLogoutHandlingProps) {
+    constructor(props: withLogoutHandlingProps) {
       super(props)
     }
 
-    handleLogout () {
+    handleLogout() {
       this.props.logout();
     }
 
-    afterSuccessfulLogout (prevProps: withLogoutHandlingProps) {
+    afterSuccessfulLogout(prevProps: withLogoutHandlingProps) {
       const currentProps: withLogoutHandlingProps = this.props;
       if (currentProps.users.isLoggingOutSuccess && !prevProps.users.isLoggingOutSuccess) {
         return toast.success("Logged out! 🤠", {
@@ -27,7 +27,7 @@ function withLogoutHandling (WrappedComponent: any) {
       }
     }
 
-    afterFailedLogout (prevProps: withLogoutHandlingProps) {
+    afterFailedLogout(prevProps: withLogoutHandlingProps) {
       const currentProps: withLogoutHandlingProps = this.props;
       if (currentProps.users.isLoggingOutFailure && !prevProps.users.isLoggingOutFailure) {
         const error = currentProps.users.error;
@@ -37,16 +37,16 @@ function withLogoutHandling (WrappedComponent: any) {
       }
     }
 
-    componentDidUpdate (prevProps: withLogoutHandlingProps) {
+    componentDidUpdate(prevProps: withLogoutHandlingProps) {
       this.afterSuccessfulLogout(prevProps);
       this.afterFailedLogout(prevProps);
     }
 
-    render () {
+    render() {
       return (
         <WrappedComponent
-          logout={() => this.handleLogout()}
           {...this.props}
+          logout={() => this.handleLogout()}
         />
       );
     }

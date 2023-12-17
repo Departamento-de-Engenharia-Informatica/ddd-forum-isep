@@ -12,4 +12,5 @@ export interface ICommentRepo {
   save (comment: Comment): Promise<void>;
   saveBulk (comments: Comment[]): Promise<void>;
   deleteComment (commentId: CommentId): Promise<void>;
+  getNumberOfCommentsByMemberId(memberId: string): Promise<number>;
 }

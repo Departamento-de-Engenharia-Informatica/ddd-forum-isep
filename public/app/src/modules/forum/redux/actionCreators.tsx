@@ -292,3 +292,55 @@ export {
   downvotingCommentSuccess,
   downvotingCommentFailure
 }
+
+const getActionCreators = () => ({
+  submittingPost,
+  submittingPostSuccess,
+  submittingPostFailure,
+
+  getRecentPosts,
+  getRecentPostsSuccess,
+  getRecentPostsFailure,
+
+  gettingPostBySlug,
+  gettingPostBySlugSuccess,
+  gettingPostBySlugFailure,
+
+  creatingReplyToPost,
+  creatingReplyToPostSuccess,
+  creatingReplyToPostFailure,
+
+  gettingComments,
+  gettingCommentsSuccess,
+  gettingCommentsFailure,
+
+  getPopularPosts,
+  getPopularPostsSuccess,
+  getPopularPostsFailure,
+
+  gettingCommentByCommentId,
+  gettingCommentByCommentIdSuccess,
+  gettingCommentByCommentIdFailure,
+
+  creatingReplyToComment,
+  creatingReplyToCommentSuccess,
+  creatingReplyToCommentFailure,
+
+  upvotingPost,
+  upvotingPostSuccess,
+  upvotingPostFailure,
+
+  downvotingPost,
+  downvotingPostSuccess,
+  downvotingPostFailure,
+
+  upvotingComment,
+  upvotingCommentSuccess,
+  upvotingCommentFailure,
+
+  downvotingComment,
+  downvotingCommentSuccess,
+  downvotingCommentFailure
+});
+
+export default getActionCreators;

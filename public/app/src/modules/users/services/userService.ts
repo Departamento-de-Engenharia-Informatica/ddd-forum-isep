@@ -6,12 +6,14 @@ import { APIResponse } from "../../../shared/infra/services/APIResponse";
 import { LoginDTO } from "../dtos/loginDTO";
 import { User } from "../models/user";
 import { IAuthService } from "./authService";
+import { UserStatsDTO } from "../dtos/userStatsDTO";
 
 export interface IUsersService {
   getCurrentUserProfile (): Promise<User>;
   createUser (email: string, username: string, password: string): Promise<APIResponse<void>>;
   login (username: string, password: string): Promise<APIResponse<LoginDTO>>;
   logout (): Promise<APIResponse<void>>;
+  getUserStatistics (username: string): Promise<UserStatsDTO>;
 }
 
 export class UsersService extends BaseAPI implements IUsersService {
@@ -27,6 +29,21 @@ export class UsersService extends BaseAPI implements IUsersService {
     return response.data.user as User;
   }
 
+  async getUserStatistics (username: string) : Promise<UserStatsDTO> {
+    const response = await this.get('/members/stats/'+username);
+    return response.data as UserStatsDTO;
+  }
+
+  async getUserStatisticsWithMostPosts () : Promise<UserStatsDTO> {
+    const response = await this.get('/members/posts/most/');
+    return response.data as UserStatsDTO;
+  }
+
+  async getUserStatisticsWithBestScore () : Promise<UserStatsDTO> {
+    const response = await this.get('/members/score/biggest/');
+    return response.data as UserStatsDTO;
+  }
+
   public async logout (): Promise<APIResponse<void>> {
     try {
       await this.post('/users/logout', null, null, { 
@@ -35,7 +52,7 @@ export class UsersService extends BaseAPI implements IUsersService {
       this.authService.removeToken('access-token');
       this.authService.removeToken('refresh-token');
       return right(Result.ok<void>());
-    } catch (err) {
+    } catch (err: any) {
       return left(err.response ? err.response.data.message : "Connection failed")
     }
   }
@@ -47,7 +64,7 @@ export class UsersService extends BaseAPI implements IUsersService {
       this.authService.setToken('access-token', dto.accessToken);
       this.authService.setToken('refresh-token', dto.refreshToken);
       return right(Result.ok<LoginDTO>(dto));
-    } catch (err) {
+    } catch (err: any) {
       return left(err.response ? err.response.data.message : "Connection failed")
     }
   }
@@ -56,7 +73,7 @@ export class UsersService extends BaseAPI implements IUsersService {
     try {
       await this.post('/users', { email, username, password });
       return right(Result.ok<void>());
-    } catch (err) {
+    } catch (err: any) {
       return left(err.response ? err.response.data.message : "Connection failed")
     }
   }

@@ -5,10 +5,12 @@ import { PostRepo } from "./implementations/sequelizePostRepo";
 import { CommentRepo } from "./implementations/commentRepo";
 import { PostVotesRepo } from "./implementations/sequelizePostVotesRepo";
 import { CommentVotesRepo } from "./implementations/sequelizeCommentVotesRepo";
+import { SequelizeUserRepo } from "../../users/repos/implementations/sequelizeUserRepo";
 
 const commentVotesRepo = new CommentVotesRepo(models);
+const userRepo = new SequelizeUserRepo(models);
 const postVotesRepo = new PostVotesRepo(models);
-const memberRepo = new MemberRepo(models);
+const memberRepo = new MemberRepo(models, userRepo);
 const commentRepo = new CommentRepo(models, commentVotesRepo);
 const postRepo = new PostRepo(models, commentRepo, postVotesRepo);
 

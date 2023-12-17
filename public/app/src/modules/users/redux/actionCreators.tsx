@@ -1,6 +1,7 @@
 
 import * as actions from "./actions";
 import { User } from "../models/user";
+import { UserStatsDTO } from "../dtos/userStatsDTO";
 
 export type UsersAction = { [key: string]: actions.UsersActionType | any };
 
@@ -20,6 +21,66 @@ function gettingUserProfileSuccess (user: User): UsersAction & { user: User } {
 function gettingUserProfileFailure (errorMessage: string): UsersAction & { errorMessage: string } {
   return {
     type: actions.GETTING_USER_PROFILE_FAILURE,
+    errorMessage
+  };
+}
+
+function gettingUserStatistics (): UsersAction {
+  return {
+    type: actions.GETTING_USER_STATISTICS
+  };
+}
+
+function gettingUserStatisticsSuccess (userStats: UserStatsDTO): UsersAction & { userStats: UserStatsDTO } {
+  return {
+    type: actions.GETTING_USER_STATISTICS_SUCCESS,
+    userStats
+  };
+}
+
+function gettingUserStatisticsFailure (errorMessage: string): UsersAction & { errorMessage: string } {
+  return {
+    type: actions.GETTING_USER_STATISTICS_FAILURE,
+    errorMessage
+  };
+}
+
+function gettingUserStatisticsWithBestScore (): UsersAction {
+  return {
+    type: actions.GETTING_USER_STATISTICS_WITH_BEST_SCORE
+  };
+}
+
+function gettingUserStatisticsWithBestScoreSuccess (userStatsWithBestScore: UserStatsDTO): UsersAction & { userStatsWithBestScore: UserStatsDTO } {
+  return {
+    type: actions.GETTING_USER_STATISTICS_WITH_BEST_SCORE_SUCCESS,
+    userStatsWithBestScore
+  };
+}
+
+function gettingUserStatisticsWithBestScoreFailure (errorMessage: string): UsersAction & { errorMessage: string } {
+  return {
+    type: actions.GETTING_USER_STATISTICS_WITH_BEST_SCORE_FAILURE,
+    errorMessage
+  };
+}
+
+function gettingUserStatisticsWithMostPosts (): UsersAction {
+  return {
+    type: actions.GETTING_USER_STATISTICS_WITH_MOST_POSTS
+  };
+}
+
+function gettingUserStatisticsWithMostPostsSuccess (userStatsWithMostPosts: UserStatsDTO): UsersAction & { userStatsWithMostPosts: UserStatsDTO } {
+  return {
+    type: actions.GETTING_USER_STATISTICS_WITH_MOST_POSTS_SUCCESS,
+    userStatsWithMostPosts
+  };
+}
+
+function gettingUserStatisticsWithMostPostsFailure (errorMessage: string): UsersAction & { errorMessage: string } {
+  return {
+    type: actions.GETTING_USER_STATISTICS_WITH_MOST_POSTS_FAILURE,
     errorMessage
   };
 }
@@ -86,6 +147,18 @@ export {
   gettingUserProfileSuccess,
   gettingUserProfileFailure,
 
+  gettingUserStatistics,
+  gettingUserStatisticsSuccess,
+  gettingUserStatisticsFailure,
+
+  gettingUserStatisticsWithMostPosts,
+  gettingUserStatisticsWithMostPostsSuccess,
+  gettingUserStatisticsWithMostPostsFailure,
+
+  gettingUserStatisticsWithBestScore,
+  gettingUserStatisticsWithBestScoreSuccess,
+  gettingUserStatisticsWithBestScoreFailure,
+
   loggingIn,
   loggingInSuccess,
   loggingInFailure,
@@ -98,3 +171,35 @@ export {
   creatingUserSuccess,
   creatingUserFailure
 }
+
+const getActionCreators = () => ({
+  gettingUserProfile,
+  gettingUserProfileSuccess,
+  gettingUserProfileFailure,
+
+  gettingUserStatistics,
+  gettingUserStatisticsSuccess,
+  gettingUserStatisticsFailure,
+
+  gettingUserStatisticsWithMostPosts,
+  gettingUserStatisticsWithMostPostsSuccess,
+  gettingUserStatisticsWithMostPostsFailure,
+
+  gettingUserStatisticsWithBestScore,
+  gettingUserStatisticsWithBestScoreSuccess,
+  gettingUserStatisticsWithBestScoreFailure,
+
+  loggingIn,
+  loggingInSuccess,
+  loggingInFailure,
+
+  loggingOut,
+  loggingOutSuccess,
+  loggingOutFailure,
+
+  creatingUser,
+  creatingUserSuccess,
+  creatingUserFailure
+});
+
+export default getActionCreators;

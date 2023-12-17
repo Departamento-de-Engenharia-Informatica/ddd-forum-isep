@@ -7,18 +7,33 @@ import { PostDetailsMap } from "../../../mappers/postDetailsMap";
 import { DecodedExpressRequest } from "../../../../users/infra/http/models/decodedRequest";
 import * as express from 'express'
 
+/**
+ * Controller for handling the retrieval of popular posts.
+ */
 export class GetPopularPostsController extends BaseController {
   private useCase: GetPopularPosts;
 
+  /**
+   * Constructor for the GetPopularPostsController.
+   *
+   * @param {GetPopularPosts} useCase - The use case for retrieving popular posts.
+   */
   constructor (useCase: GetPopularPosts) {
     super();
     this.useCase = useCase;
   }
 
+  /**
+   * Executes the controller logic to retrieve popular posts.
+   *
+   * @param {DecodedExpressRequest} req - The request object.
+   * @param {express.Response} res - The response object.
+   * @returns {Promise<any>} A promise representing the response.
+   */
   async executeImpl (req: DecodedExpressRequest, res: express.Response): Promise<any> {
 
     const dto: GetPopularPostsRequestDTO = {
-      offset: req.query.offset,
+      offset: parseInt(req.query.offset as string, 10),
       userId: !!req.decoded === true ? req.decoded.userId : null
     }
 
@@ -35,8 +50,15 @@ export class GetPopularPostsController extends BaseController {
         
       } else {
         const postDetails = result.value.getValue();
+
+        // Sort the postDetails by the number of comments in descending order
+        postDetails.sort((a, b) => b.numComments - a.numComments);
+
+        // Get the top 5 posts
+        const top5Posts = postDetails.slice(0, 5);
+
         return this.ok<GetPopularPostsResponseDTO>(res, {
-          posts: postDetails.map((d) => PostDetailsMap.toDTO(d))
+          posts: top5Posts.map((d) => PostDetailsMap.toDTO(d))
         });
       }
 

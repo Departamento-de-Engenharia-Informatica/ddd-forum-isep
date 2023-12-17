@@ -4,7 +4,7 @@ import { Layout } from '../shared/layout';
 import Header from '../shared/components/header/components/Header';
 import PostFilters, { PostFilterType } from '../modules/forum/components/posts/filters/components/PostFilters';
 import { Post } from '../modules/forum/models/Post';
-import { DateUtil } from '../shared/utils/DateUtil';
+//import { DateUtil } from '../shared/utils/DateUtil';
 import { PostRow } from '../modules/forum/components/posts/postRow';
 import { ProfileButton } from '../modules/users/components/profileButton';
 import { UsersState } from '../modules/users/redux/states';
@@ -66,8 +66,11 @@ class IndexPage extends React.Component<IndexPageProps, IndexPageState> {
   }
 
   setActiveFilterOnLoad () {
+    if (!this.props.location) {
+      return;
+    }
     const showNewFilter = (this.props.location.search as string).includes('show=new');
-    const showPopularFilter = (this.props.location.search as string).includes('show=popular');
+    //const showPopularFilter = (this.props.location.search as string).includes('show=popular');
 
     let activeFilter = this.state.activeFilter;
 

@@ -14,7 +14,7 @@ import { stringify } from "yaml";
 
 import https from "https";
 
-import ConfigHandler from "../config/ConfigHandler";
+import ConfigHandler from "../config/configHandler";
 
 const config = ConfigHandler.getInstance();
 const log = new Logger({

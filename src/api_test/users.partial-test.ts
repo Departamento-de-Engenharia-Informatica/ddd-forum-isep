@@ -4,7 +4,7 @@
  * This code is based on the project {@link https://github.com/jmfiola/jest-api-test-typescript-example}.
 */
 import { Logger } from "tslog";
-import ConfigHandler from "./config/ConfigHandler";
+import ConfigHandler from "./config/configHandler";
 
 import Users from "./endpoints/Users";
 
