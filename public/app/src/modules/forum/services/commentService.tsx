@@ -29,7 +29,7 @@ export class CommentService extends BaseAPI implements ICommentService {
         authorization: this.authService.getToken('access-token') 
       });
       return right(Result.ok<void>());
-    } catch (err) {
+    } catch (err: any) {
       return left(err.response ? err.response.data.message : "Connection failed")
     }
   }
@@ -40,7 +40,7 @@ export class CommentService extends BaseAPI implements ICommentService {
         authorization: this.authService.getToken('access-token') 
       });
       return right(Result.ok<void>());
-    } catch (err) {
+    } catch (err: any) {
       return left(err.response ? err.response.data.message : "Connection failed")
     }
   }
@@ -60,7 +60,7 @@ export class CommentService extends BaseAPI implements ICommentService {
       return right(Result.ok<Comment[]>(
         response.data.comments.map((c: CommentDTO) => CommentUtil.toViewModel(c)))
       );
-    } catch (err) {
+    } catch (err: any) {
       return left(err.response ? err.response.data.message : "Connection failed")
     }
   }
@@ -77,7 +77,7 @@ export class CommentService extends BaseAPI implements ICommentService {
         isAuthenticated ? auth : null
       );
       return right(Result.ok<Comment>(CommentUtil.toViewModel(response.data.comment)));
-    } catch (err) {
+    } catch (err: any) {
       return left(err.response ? err.response.data.message : "Connection failed")
     }
   }
@@ -88,7 +88,7 @@ export class CommentService extends BaseAPI implements ICommentService {
         authorization: this.authService.getToken('access-token') 
       });
       return right(Result.ok<void>());
-    } catch (err) {
+    } catch (err: any) {
       return left(err.response ? err.response.data.message : "Connection failed")
     }
   }
@@ -99,7 +99,7 @@ export class CommentService extends BaseAPI implements ICommentService {
         authorization: this.authService.getToken('access-token') 
       });
       return right(Result.ok<void>());
-    } catch (err) {
+    } catch (err: any) {
       return left(err.response ? err.response.data.message : "Connection failed")
     }
   }

@@ -3,7 +3,7 @@ import React from 'react'
 import Helmet from 'react-helmet';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+//import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import "./Layout.sass"
 import { siteMetaData } from '../../config/siteMetaData';
 import withUsersService from '../../modules/users/hocs/withUsersService';
@@ -11,9 +11,10 @@ import { UsersService } from '../../modules/users/services/userService';
 
 interface LayoutProps {
   usersService: UsersService;
+  children: React.ReactNode;
 }
 
-class Layout extends React.Component {
+class Layout extends React.Component<LayoutProps> {
   constructor (props: LayoutProps) {
     super(props);
   }

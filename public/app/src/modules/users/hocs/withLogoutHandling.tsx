@@ -1,53 +1,55 @@
-
 import React from 'react';
 import { UsersState } from '../redux/states';
 import { IUserOperators } from '../redux/operators';
 import { toast } from 'react-toastify';
 
 interface withLogoutHandlingProps extends IUserOperators {
-  users: UsersState
+  users: UsersState;
 }
 
-function withLogoutHandling (WrappedComponent: any) {
+function withLogoutHandling(WrappedComponent: any) {
   class HOC extends React.Component<withLogoutHandlingProps, any> {
-    constructor (props: withLogoutHandlingProps) {
-      super(props)
+    constructor(props: withLogoutHandlingProps) {
+      super(props);
     }
 
-    handleLogout () {
+    handleLogout() {
       this.props.logout();
     }
 
-    afterSuccessfulLogout (prevProps: withLogoutHandlingProps) {
+    afterSuccessfulLogout(prevProps: withLogoutHandlingProps) {
       const currentProps: withLogoutHandlingProps = this.props;
-      if (currentProps.users.isLoggingOutSuccess && !prevProps.users.isLoggingOutSuccess) {
-        return toast.success("Logged out! 🤠", {
+      if (
+        currentProps.users.isLoggingOutSuccess &&
+        !prevProps.users.isLoggingOutSuccess
+      ) {
+        return toast.success('Logged out! 🤠', {
           autoClose: 3000
-        })
+        });
       }
     }
 
-    afterFailedLogout (prevProps: withLogoutHandlingProps) {
+    afterFailedLogout(prevProps: withLogoutHandlingProps) {
       const currentProps: withLogoutHandlingProps = this.props;
-      if (currentProps.users.isLoggingOutFailure && !prevProps.users.isLoggingOutFailure) {
+      if (
+        currentProps.users.isLoggingOutFailure &&
+        !prevProps.users.isLoggingOutFailure
+      ) {
         const error = currentProps.users.error;
         return toast.error(`Had some trouble logging out! ${error} 🤠`, {
           autoClose: 3000
-        })
+        });
       }
     }
 
-    componentDidUpdate (prevProps: withLogoutHandlingProps) {
+    componentDidUpdate(prevProps: withLogoutHandlingProps) {
       this.afterSuccessfulLogout(prevProps);
       this.afterFailedLogout(prevProps);
     }
 
-    render () {
+    render() {
       return (
-        <WrappedComponent
-          logout={() => this.handleLogout()}
-          {...this.props}
-        />
+        <WrappedComponent {...this.props} logout={() => this.handleLogout()} />
       );
     }
   }

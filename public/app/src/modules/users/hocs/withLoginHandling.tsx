@@ -1,55 +1,62 @@
-
 import React from 'react';
 import { UsersState } from '../redux/states';
 import { IUserOperators } from '../redux/operators';
 import { toast } from 'react-toastify';
+import { Navigate } from 'react-router-dom';
 
 interface withLoginHandlingProps extends IUserOperators {
-  users: UsersState
-  history: any;
+  users: UsersState;
 }
 
-function withLoginHandling (WrappedComponent: any) {
+function withLoginHandling(WrappedComponent: any) {
   class HOC extends React.Component<withLoginHandlingProps, any> {
-    constructor (props: withLoginHandlingProps) {
-      super(props)
+    constructor(props: withLoginHandlingProps) {
+      super(props);
     }
 
-    handleLogin (username: string, password: string) {
+    handleLogin(username: string, password: string) {
       this.props.login(username, password);
     }
 
-    afterSuccessfulLogin (prevProps: withLoginHandlingProps) {
+    afterSuccessfulLogin(prevProps: withLoginHandlingProps) {
       const currentProps: withLoginHandlingProps = this.props;
-      if (currentProps.users.isLoggingInSuccess && !prevProps.users.isLoggingInSuccess) {
+      if (
+        currentProps.users.isLoggingInSuccess &&
+        !prevProps.users.isLoggingInSuccess
+      ) {
         this.props.getUserProfile();
-        setTimeout(() => { this.props.history.push('/')}, 3000)
-        return toast.success("Logged in! 🤠", {
+        setTimeout(() => {
+          <Navigate to="/" />;
+        }, 3000);
+        return toast.success('Logged in! 🤠', {
           autoClose: 3000
-        })
+        });
       }
     }
 
-    afterFailedLogin (prevProps: withLoginHandlingProps) {
+    afterFailedLogin(prevProps: withLoginHandlingProps) {
       const currentProps: withLoginHandlingProps = this.props;
-      if (currentProps.users.isLoggingInFailure && !prevProps.users.isLoggingInFailure) {
+      if (
+        currentProps.users.isLoggingInFailure &&
+        !prevProps.users.isLoggingInFailure
+      ) {
         const error = currentProps.users.error;
         return toast.error(`Had some trouble logging in! ${error} 🤠`, {
           autoClose: 3000
-        })
+        });
       }
     }
 
-    componentDidUpdate (prevProps: withLoginHandlingProps) {
+    componentDidUpdate(prevProps: withLoginHandlingProps) {
       this.afterSuccessfulLogin(prevProps);
       this.afterFailedLogin(prevProps);
     }
 
-    render () {
+    render() {
       return (
         <WrappedComponent
-          login={(u: string, p: string) => this.handleLogin(u, p)}
           {...this.props}
+          login={(u: string, p: string) => this.handleLogin(u, p)}
         />
       );
     }

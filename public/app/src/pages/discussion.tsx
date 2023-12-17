@@ -24,12 +24,10 @@ import { SubmitButton } from '../shared/components/button';
 import { TextUtil } from '../shared/utils/TextUtil';
 import { FullPageLoader } from '../shared/components/loader';
 import withVoting from '../modules/forum/hocs/withVoting';
-import { Points } from '../modules/forum/components/posts/points';
 
 interface DiscussionPageProps extends usersOperators.IUserOperators, forumOperators.IForumOperations {
   users: UsersState;
   forum: ForumState;
-  history: any;
 }
 
 interface DiscussionState {

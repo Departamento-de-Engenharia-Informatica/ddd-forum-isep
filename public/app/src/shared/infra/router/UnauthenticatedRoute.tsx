@@ -1,10 +1,9 @@
-
-import React from 'react'
-import { Redirect, Route } from 'react-router-dom'
+import React from 'react';
+import { Navigate, Route } from 'react-router-dom';
 //@ts-ignore
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import * as usersOperators from '../../../modules/users/redux/operators'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as usersOperators from '../../../modules/users/redux/operators';
 import { UsersState } from '../../../modules/users/redux/states';
 
 interface UnAuthenticatedRouteProps {
@@ -13,29 +12,33 @@ interface UnAuthenticatedRouteProps {
   path: any;
 }
 
-/** 
+/**
  * This route is only visible to users who are not currently authenticted.
-*/
+ */
 
-const UnauthenticatedRoute: React.FC<UnAuthenticatedRouteProps> = ({ users, component: Component, ...rest }) => {
+const UnauthenticatedRoute: React.FC<UnAuthenticatedRouteProps> = ({
+  users,
+  component: Component,
+  ...rest
+}) => {
   // Add your own authentication on the below line.
   const isLoggedIn = users.isAuthenticated;
 
   return (
     <Route
       {...rest}
-      render={props =>
+      element={
         !isLoggedIn ? (
-          <Component {...props} />
+          <Component {...rest} />
         ) : (
-          <Redirect to={{ pathname: '/', state: { from: props.location } }} />
+          <Navigate to={{ pathname: '/' }} />
         )
       }
     />
-  )
-}
+  );
+};
 
-function mapStateToProps ({ users }: { users: UsersState }) {
+function mapStateToProps({ users }: { users: UsersState }) {
   return {
     users
   };
@@ -44,10 +47,13 @@ function mapStateToProps ({ users }: { users: UsersState }) {
 function mapActionCreatorsToProps(dispatch: any) {
   return bindActionCreators(
     {
-      ...usersOperators,
-    }, dispatch);
+      ...usersOperators
+    },
+    dispatch
+  );
 }
 
-export default connect(mapStateToProps, mapActionCreatorsToProps)(
-  UnauthenticatedRoute
-);
+export default connect(
+  mapStateToProps,
+  mapActionCreatorsToProps
+)(UnauthenticatedRoute);

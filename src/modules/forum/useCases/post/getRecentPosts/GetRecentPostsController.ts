@@ -18,7 +18,7 @@ export class GetRecentPostsController extends BaseController {
   async executeImpl (req: DecodedExpressRequest, res: any): Promise<any> {
 
     const dto: GetRecentPostsRequestDTO = {
-      offset: req.query.offset,
+      offset: parseInt(req.query.offset as string, 10),
       userId: !!req.decoded === true ? req.decoded.userId : null
     }
     

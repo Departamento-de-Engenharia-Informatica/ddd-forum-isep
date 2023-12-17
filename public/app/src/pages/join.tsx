@@ -15,7 +15,6 @@ import withLoginHandling from '../modules/users/hocs/withLoginHandling';
 
 interface JoinPageProps extends IUserOperators {
   users: UsersState;
-  history: any;
 }
 
 interface JoinPageState {

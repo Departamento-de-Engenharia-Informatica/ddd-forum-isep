@@ -17,7 +17,7 @@ export class GetPostBySlugController extends BaseController {
 
   async executeImpl (req: DecodedExpressRequest, res: express.Response): Promise<any> {
     const dto: GetPostBySlugDTO = {
-      slug: req.query.slug
+      slug: req.query.slug as string
     }
 
     try {

@@ -1,5 +1,4 @@
 import React from 'react'
-import arrow from '../assets/arrow.svg'
 import { Link } from 'react-router-dom'
 import "../styles/BackNavigation.sass"
 

@@ -98,3 +98,23 @@ export {
   creatingUserSuccess,
   creatingUserFailure
 }
+
+const getActionCreators = () => ({
+  gettingUserProfile,
+  gettingUserProfileSuccess,
+  gettingUserProfileFailure,
+
+  loggingIn,
+  loggingInSuccess,
+  loggingInFailure,
+
+  loggingOut,
+  loggingOutSuccess,
+  loggingOutFailure,
+
+  creatingUser,
+  creatingUserSuccess,
+  creatingUserFailure
+});
+
+export default getActionCreators;
