@@ -35,7 +35,7 @@ export class UsersService extends BaseAPI implements IUsersService {
       this.authService.removeToken('access-token');
       this.authService.removeToken('refresh-token');
       return right(Result.ok<void>());
-    } catch (err) {
+    } catch (err: any) {
       return left(err.response ? err.response.data.message : "Connection failed")
     }
   }
@@ -47,7 +47,7 @@ export class UsersService extends BaseAPI implements IUsersService {
       this.authService.setToken('access-token', dto.accessToken);
       this.authService.setToken('refresh-token', dto.refreshToken);
       return right(Result.ok<LoginDTO>(dto));
-    } catch (err) {
+    } catch (err: any) {
       return left(err.response ? err.response.data.message : "Connection failed")
     }
   }
@@ -56,7 +56,7 @@ export class UsersService extends BaseAPI implements IUsersService {
     try {
       await this.post('/users', { email, username, password });
       return right(Result.ok<void>());
-    } catch (err) {
+    } catch (err: any) {
       return left(err.response ? err.response.data.message : "Connection failed")
     }
   }

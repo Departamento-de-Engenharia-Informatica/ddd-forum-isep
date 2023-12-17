@@ -18,8 +18,8 @@ export class GetCommentsByPostSlugController extends BaseController {
   async executeImpl (req: DecodedExpressRequest, res: express.Response): Promise<any> {
 
     const dto: GetCommentsByPostSlugRequestDTO = {
-      slug: req.query.slug,
-      offset: req.query.offset,
+      slug: req.query.slug as string,
+      offset: parseInt(req.query.offset as string, 10),
       userId: req.decoded ? req.decoded.userId : null
     }
 

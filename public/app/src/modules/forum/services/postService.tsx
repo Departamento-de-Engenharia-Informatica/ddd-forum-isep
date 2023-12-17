@@ -38,7 +38,7 @@ export class PostService extends BaseAPI implements IPostService {
       return right(Result.ok<Post>(
         PostUtil.toViewModel(response.data.post)
       ));
-    } catch (err) {
+    } catch (err: any) {
       return left(err.response ? err.response.data.message : "Connection failed")
     }
   }
@@ -58,7 +58,7 @@ export class PostService extends BaseAPI implements IPostService {
       return right(Result.ok<Post[]>(
         response.data.posts.map((p: PostDTO) => PostUtil.toViewModel(p)))
       );
-    } catch (err) {
+    } catch (err: any) {
       return left(err.response ? err.response.data.message : "Connection failed")
     }
   }
@@ -77,7 +77,7 @@ export class PostService extends BaseAPI implements IPostService {
       return right(Result.ok<Post[]>(
         response.data.posts.map((p: PostDTO) => PostUtil.toViewModel(p)))
       );
-    } catch (err) {
+    } catch (err: any) {
       return left(err.response ? err.response.data.message : "Connection failed")
     }
   }
@@ -88,7 +88,7 @@ export class PostService extends BaseAPI implements IPostService {
         authorization: this.authService.getToken('access-token') 
       });
       return right(Result.ok<void>());
-    } catch (err) {
+    } catch (err: any) {
       return left(err.response ? err.response.data.message : "Connection failed")
     }
   }
@@ -99,7 +99,7 @@ export class PostService extends BaseAPI implements IPostService {
         authorization: this.authService.getToken('access-token') 
       });
       return right(Result.ok<void>());
-    } catch (err) {
+    } catch (err: any) {
       return left(err.response ? err.response.data.message : "Connection failed")
     }
   }
@@ -110,7 +110,7 @@ export class PostService extends BaseAPI implements IPostService {
         authorization: this.authService.getToken('access-token') 
       });
       return right(Result.ok<void>());
-    } catch (err) {
+    } catch (err: any) {
       return left(err.response ? err.response.data.message : "Connection failed")
     }
   }
