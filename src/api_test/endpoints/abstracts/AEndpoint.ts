@@ -2,7 +2,7 @@
  *
  * @remarks
  * This code is based on the project {@link https://github.com/jmfiola/jest-api-test-typescript-example}.
-*/
+ */
 import { Logger } from "tslog";
 
 import ConfigHandler from "../../config/configHandler";
@@ -24,8 +24,8 @@ export abstract class AEndpoint {
   protected log: Logger = new Logger({
     minLevel: this.config.environmnetConfig.log_level,
     dateTimeTimezone:
-      this.config.environmnetConfig.time_zone ||
-      Intl.DateTimeFormat().resolvedOptions().timeZone,
+        this.config.environmnetConfig.time_zone ||
+        Intl.DateTimeFormat().resolvedOptions().timeZone,
   });
 
   protected url: string;

@@ -4,7 +4,6 @@ import { Layout } from '../shared/layout';
 import Header from '../shared/components/header/components/Header';
 import PostFilters, { PostFilterType } from '../modules/forum/components/posts/filters/components/PostFilters';
 import { Post } from '../modules/forum/models/Post';
-import { DateUtil } from '../shared/utils/DateUtil';
 import { PostRow } from '../modules/forum/components/posts/postRow';
 import { ProfileButton } from '../modules/users/components/profileButton';
 import { UsersState } from '../modules/users/redux/states';
@@ -67,7 +66,6 @@ class IndexPage extends React.Component<IndexPageProps, IndexPageState> {
 
   setActiveFilterOnLoad () {
     const showNewFilter = (this.props.location.search as string).includes('show=new');
-    const showPopularFilter = (this.props.location.search as string).includes('show=popular');
 
     let activeFilter = this.state.activeFilter;
 
@@ -103,37 +101,37 @@ class IndexPage extends React.Component<IndexPageProps, IndexPageState> {
     const { activeFilter } = this.state;
 
     return (
-      <Layout>
-        <div className="header-container flex flex-row flex-center flex-even">
-          <Header
-            title="Domain-Driven Designers"
-            subtitle="Where awesome Domain-Driven Designers are made"
-          />
-          <ProfileButton
-            isLoggedIn={this.props.users.isAuthenticated}
-            username={this.props.users.isAuthenticated ? (this.props.users.user as User).username : ''}
-            onLogout={() => this.props.logout()}
-          />
-        </div>
-        <br/>
-        <br/>
+        <Layout>
+          <div className="header-container flex flex-row flex-center flex-even">
+            <Header
+                title="Domain-Driven Designers"
+                subtitle="Where awesome Domain-Driven Designers are made"
+            />
+            <ProfileButton
+                isLoggedIn={this.props.users.isAuthenticated}
+                username={this.props.users.isAuthenticated ? (this.props.users.user as User).username : ''}
+                onLogout={() => this.props.logout()}
+            />
+          </div>
+          <br/>
+          <br/>
 
-        <PostFilters
-          activeFilter={activeFilter}
-          onClick={(filter) => this.setActiveFilter(filter)}
-        />
-
-        {this.getPostsFromActiveFilterGroup().map((p, i) => (
-          <PostRow
-            key={i}
-            onUpvoteClicked={() => this.props.upvotePost(p.slug)}
-            onDownvoteClicked={() => this.props.downvotePost(p.slug)}
-            isLoggedIn={this.props.users.isAuthenticated}
-            {...p}
+          <PostFilters
+              activeFilter={activeFilter}
+              onClick={(filter) => this.setActiveFilter(filter)}
           />
-        ))}
 
-      </Layout>
+          {this.getPostsFromActiveFilterGroup().map((p, i) => (
+              <PostRow
+                  key={i}
+                  onUpvoteClicked={() => this.props.upvotePost(p.slug)}
+                  onDownvoteClicked={() => this.props.downvotePost(p.slug)}
+                  isLoggedIn={this.props.users.isAuthenticated}
+                  {...p}
+              />
+          ))}
+
+        </Layout>
     )
   }
 }
@@ -147,14 +145,14 @@ function mapStateToProps ({ users, forum }: { users: UsersState, forum: ForumSta
 
 function mapActionCreatorsToProps(dispatch: any) {
   return bindActionCreators(
-    {
-      ...usersOperators,
-      ...forumOperators
-    }, dispatch);
+      {
+        ...usersOperators,
+        ...forumOperators
+      }, dispatch);
 }
 
 export default connect(mapStateToProps, mapActionCreatorsToProps)(
-  withLogoutHandling(
-    withVoting(IndexPage)
-  )
+    withLogoutHandling(
+        withVoting(IndexPage)
+    )
 );

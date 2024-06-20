@@ -21,22 +21,22 @@ export class ReplyToPostController extends BaseController {
     const dto: ReplyToPostDTO = {
       comment: TextUtils.sanitize(req.body.comment),
       userId: userId,
-      slug: req.query.slug
+      slug: req.query.slug as string,
     }
-  
+
     try {
       const result = await this.useCase.execute(dto);
 
       if (result.isLeft()) {
         const error = result.value;
-  
+
         switch (error.constructor) {
           case ReplyToPostErrors.PostNotFoundError:
             return this.notFound(res, error.getErrorValue().message)
           default:
             return this.fail(res, error.getErrorValue().message);
         }
-        
+
       } else {
         return this.ok(res);
       }

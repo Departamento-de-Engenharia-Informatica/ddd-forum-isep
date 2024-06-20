@@ -11,10 +11,6 @@ interface withLoginHandlingProps extends IUserOperators {
 
 function withLoginHandling (WrappedComponent: any) {
   class HOC extends React.Component<withLoginHandlingProps, any> {
-    constructor (props: withLoginHandlingProps) {
-      super(props)
-    }
-
     handleLogin (username: string, password: string) {
       this.props.login(username, password);
     }
@@ -47,10 +43,10 @@ function withLoginHandling (WrappedComponent: any) {
 
     render () {
       return (
-        <WrappedComponent
-          login={(u: string, p: string) => this.handleLogin(u, p)}
-          {...this.props}
-        />
+          <WrappedComponent
+              {...this.props}
+              login={(u: string, p: string) => this.handleLogin(u, p)}
+          />
       );
     }
   }

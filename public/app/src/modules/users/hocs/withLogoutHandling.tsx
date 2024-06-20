@@ -10,10 +10,6 @@ interface withLogoutHandlingProps extends IUserOperators {
 
 function withLogoutHandling (WrappedComponent: any) {
   class HOC extends React.Component<withLogoutHandlingProps, any> {
-    constructor (props: withLogoutHandlingProps) {
-      super(props)
-    }
-
     handleLogout () {
       this.props.logout();
     }
@@ -44,10 +40,10 @@ function withLogoutHandling (WrappedComponent: any) {
 
     render () {
       return (
-        <WrappedComponent
-          logout={() => this.handleLogout()}
-          {...this.props}
-        />
+          <WrappedComponent
+              {...this.props}
+              logout={() => this.handleLogout()}
+          />
       );
     }
   }

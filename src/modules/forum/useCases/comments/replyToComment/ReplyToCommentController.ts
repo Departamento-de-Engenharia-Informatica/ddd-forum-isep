@@ -20,16 +20,16 @@ export class ReplyToCommentController extends BaseController {
     const dto: ReplyToCommentDTO = {
       comment: TextUtils.sanitize(req.body.comment),
       userId: userId,
-      slug: req.query.slug,
+      slug: req.query.slug as string,
       parentCommentId: req.params.commentId
     }
-  
+
     try {
       const result = await this.useCase.execute(dto);
 
       if (result.isLeft()) {
         const error = result.value;
-  
+
         switch (error.constructor) {
           case ReplyToCommentErrors.PostNotFoundError:
             return this.notFound(res, error.getErrorValue().message)
@@ -40,7 +40,7 @@ export class ReplyToCommentController extends BaseController {
           default:
             return this.fail(res, error.getErrorValue().message);
         }
-        
+
       } else {
         return this.ok(res);
       }

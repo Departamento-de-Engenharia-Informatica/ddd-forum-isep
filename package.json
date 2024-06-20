@@ -18,7 +18,7 @@
     "migrate:prod": "sequelize db:migrate --env production",
     "setup:dev": "npm install && npm run db:create:dev && npm run migrate:dev",
     "start:dev": "cross-env NODE_ENV=development nodemon",
-    "start:both": "concurrently --kill-others-on-fail \"npm run start:dev\" \"npm run  start:public\"",
+    "start:both": "concurrently --kill-others-on-fail \"npm run start:dev\" \"npm run start:public\"",
     "prestart": "npm run migrate:prod",
     "start": "node dist/index",
     "test": "jest",

@@ -17,7 +17,7 @@ export class GetPostBySlugController extends BaseController {
 
   async executeImpl (req: DecodedExpressRequest, res: express.Response): Promise<any> {
     const dto: GetPostBySlugDTO = {
-      slug: req.query.slug
+      slug: req.query.slug as string,
     }
 
     try {
@@ -25,12 +25,12 @@ export class GetPostBySlugController extends BaseController {
 
       if (result.isLeft()) {
         const error = result.value;
-  
+
         switch (error.constructor) {
           default:
             return this.fail(res, error.getErrorValue().message);
         }
-        
+
       } else {
         const postDetails = result.value.getValue();
         return this.ok<{ post: PostDTO }>(res, {

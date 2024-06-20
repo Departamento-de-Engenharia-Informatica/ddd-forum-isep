@@ -18,22 +18,22 @@ export class GetRecentPostsController extends BaseController {
   async executeImpl (req: DecodedExpressRequest, res: any): Promise<any> {
 
     const dto: GetRecentPostsRequestDTO = {
-      offset: req.query.offset,
+      offset: Number(req.query.offset),
       userId: !!req.decoded === true ? req.decoded.userId : null
     }
-    
+
 
     try {
       const result = await this.useCase.execute(dto);
 
       if (result.isLeft()) {
         const error = result.value;
-  
+
         switch (error.constructor) {
           default:
             return this.fail(res, error.getErrorValue().message);
         }
-        
+
       } else {
         const postDetails = result.value.getValue();
         return this.ok<GetRecentPostsResponseDTO>(res, {

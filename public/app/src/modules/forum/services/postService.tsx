@@ -2,7 +2,6 @@
 import { APIResponse } from "../../../shared/infra/services/APIResponse";
 import { PostType, Post } from "../models/Post";
 import { BaseAPI } from "../../../shared/infra/services/BaseAPI";
-import { IAuthService } from "../../users/services/authService";
 import { Result } from "../../../shared/core/Result";
 import { right, left } from "../../../shared/core/Either";
 import { PostUtil } from "../utils/PostUtil";
@@ -18,11 +17,6 @@ export interface IPostService {
 }
 
 export class PostService extends BaseAPI implements IPostService {
-
-  constructor (authService: IAuthService) {
-    super(authService);
-  }
-
   public async getPostBySlug (slug: string): Promise<APIResponse<Post>> {
     try {
       const accessToken = this.authService.getToken('access-token');
@@ -31,12 +25,12 @@ export class PostService extends BaseAPI implements IPostService {
         authorization: accessToken
       };
 
-      const response = await this.get('/posts', { slug }, 
-        isAuthenticated ? auth : null
+      const response = await this.get('/posts', { slug },
+          isAuthenticated ? auth : null
       );
 
       return right(Result.ok<Post>(
-        PostUtil.toViewModel(response.data.post)
+          PostUtil.toViewModel(response.data.post)
       ));
     } catch (err) {
       return left(err.response ? err.response.data.message : "Connection failed")
@@ -51,12 +45,12 @@ export class PostService extends BaseAPI implements IPostService {
         authorization: accessToken
       };
 
-      const response = await this.get('/posts/recent', { offset }, 
-        isAuthenticated ? auth : null
+      const response = await this.get('/posts/recent', { offset },
+          isAuthenticated ? auth : null
       );
 
       return right(Result.ok<Post[]>(
-        response.data.posts.map((p: PostDTO) => PostUtil.toViewModel(p)))
+          response.data.posts.map((p: PostDTO) => PostUtil.toViewModel(p)))
       );
     } catch (err) {
       return left(err.response ? err.response.data.message : "Connection failed")
@@ -70,12 +64,12 @@ export class PostService extends BaseAPI implements IPostService {
       const auth = {
         authorization: accessToken
       };
-      const response = await this.get('/posts/popular', { offset }, 
-        isAuthenticated ? auth : null
+      const response = await this.get('/posts/popular', { offset },
+          isAuthenticated ? auth : null
       );
 
       return right(Result.ok<Post[]>(
-        response.data.posts.map((p: PostDTO) => PostUtil.toViewModel(p)))
+          response.data.posts.map((p: PostDTO) => PostUtil.toViewModel(p)))
       );
     } catch (err) {
       return left(err.response ? err.response.data.message : "Connection failed")
@@ -84,8 +78,8 @@ export class PostService extends BaseAPI implements IPostService {
 
   public async createPost (title: string, type: PostType, text?: string, link?: string): Promise<APIResponse<void>> {
     try {
-      await this.post('/posts', { title, postType: type, text, link }, null, { 
-        authorization: this.authService.getToken('access-token') 
+      await this.post('/posts', { title, postType: type, text, link }, null, {
+        authorization: this.authService.getToken('access-token')
       });
       return right(Result.ok<void>());
     } catch (err) {
@@ -95,8 +89,8 @@ export class PostService extends BaseAPI implements IPostService {
 
   async upvotePost (slug: string): Promise<APIResponse<void>> {
     try {
-      await this.post('/posts/upvote', { slug }, null, { 
-        authorization: this.authService.getToken('access-token') 
+      await this.post('/posts/upvote', { slug }, null, {
+        authorization: this.authService.getToken('access-token')
       });
       return right(Result.ok<void>());
     } catch (err) {
@@ -106,8 +100,8 @@ export class PostService extends BaseAPI implements IPostService {
 
   async downvotePost (slug: string): Promise<APIResponse<void>> {
     try {
-      await this.post('/posts/downvote', { slug }, null, { 
-        authorization: this.authService.getToken('access-token') 
+      await this.post('/posts/downvote', { slug }, null, {
+        authorization: this.authService.getToken('access-token')
       });
       return right(Result.ok<void>());
     } catch (err) {

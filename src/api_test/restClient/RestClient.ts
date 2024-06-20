@@ -2,7 +2,7 @@
  *
  * @remarks
  * This code is based on the project {@link https://github.com/jmfiola/jest-api-test-typescript-example}.
-*/
+ */
 import axios, {
   AxiosInstance,
   AxiosRequestConfig,
@@ -20,8 +20,8 @@ const config = ConfigHandler.getInstance();
 const log = new Logger({
   minLevel: config.environmnetConfig.log_level,
   dateTimeTimezone:
-    config.environmnetConfig.time_zone ||
-    Intl.DateTimeFormat().resolvedOptions().timeZone,
+      config.environmnetConfig.time_zone ||
+      Intl.DateTimeFormat().resolvedOptions().timeZone,
 });
 
 function isSet(property): boolean {
@@ -48,14 +48,14 @@ export class RestClient {
   }
 
   public async callEndpoint({
-    route,
-    method,
-    authToken,
-    headers,
-    data,
-    additionalConfigs,
-    params,
-  }: IAxiosCallEndpointArgs): Promise<AxiosResponse> {
+                              route,
+                              method,
+                              authToken,
+                              headers,
+                              data,
+                              additionalConfigs,
+                              params,
+                            }: IAxiosCallEndpointArgs): Promise<AxiosResponse> {
     let response;
     let responseLog = "Response: ";
     let requestHeaders = headers;
@@ -81,49 +81,49 @@ export class RestClient {
     }
 
     log.debug(
-      RestClient.prepareLogRecord({
-        route,
-        method,
-        headers: requestHeaders,
-        data,
-        additionalConfigs,
-        params,
-      })
+        RestClient.prepareLogRecord({
+          route,
+          method,
+          headers: requestHeaders,
+          data,
+          additionalConfigs,
+          params,
+        })
     );
 
     await this.axiosInstance
-      .request({
-        url: route,
-        method,
-        data,
-        headers: requestHeaders,
-        httpsAgent: this.httpsAgent,
-        params,
-        ...additionalConfigs,
-      })
-      .then((res) => {
-        response = res;
-        responseLog = `<Success> Status = ${res.status} ${res.statusText}`;
-      })
-      .catch((error) => {
-        response = error.response;
-        if (response === undefined)
-          responseLog = `<Error> Something wrong happened, did not get proper error from server! (${error.message})`;
-        else
-          responseLog = `<Error> Status = ${response.status} ${response.statusText}, ${error.message}`;
-      });
+        .request({
+          url: route,
+          method,
+          data,
+          headers: requestHeaders,
+          httpsAgent: this.httpsAgent,
+          params,
+          ...additionalConfigs,
+        })
+        .then((res) => {
+          response = res;
+          responseLog = `<Success> Status = ${res.status} ${res.statusText}`;
+        })
+        .catch((error) => {
+          response = error.response;
+          if (response === undefined)
+            responseLog = `<Error> Something wrong happened, did not get proper error from server! (${error.message})`;
+          else
+            responseLog = `<Error> Status = ${response.status} ${response.statusText}, ${error.message}`;
+        });
     log.debug(responseLog);
     return response;
   }
 
   public async sendPost({
-    route,
-    authToken,
-    data,
-    params,
-    headers,
-    additionalConfigs,
-  }: IAxiosHttpRequestArgs): Promise<any> {
+                          route,
+                          authToken,
+                          data,
+                          params,
+                          headers,
+                          additionalConfigs,
+                        }: IAxiosHttpRequestArgs): Promise<any> {
     return this.callEndpoint({
       route,
       method: "POST",
@@ -136,12 +136,12 @@ export class RestClient {
   }
 
   public async sendGet({
-    route,
-    authToken,
-    params,
-    headers,
-    additionalConfigs,
-  }: IAxiosHttpRequestArgs): Promise<any> {
+                         route,
+                         authToken,
+                         params,
+                         headers,
+                         additionalConfigs,
+                       }: IAxiosHttpRequestArgs): Promise<any> {
     return this.callEndpoint({
       route,
       method: "GET",
@@ -153,12 +153,12 @@ export class RestClient {
   }
 
   public async sendDelete({
-    route,
-    authToken,
-    params,
-    headers,
-    additionalConfigs,
-  }: IAxiosHttpRequestArgs): Promise<any> {
+                            route,
+                            authToken,
+                            params,
+                            headers,
+                            additionalConfigs,
+                          }: IAxiosHttpRequestArgs): Promise<any> {
     return this.callEndpoint({
       route,
       method: "DELETE",
@@ -170,12 +170,12 @@ export class RestClient {
   }
 
   public async sendPatch({
-    route,
-    authToken,
-    data,
-    headers,
-    additionalConfigs,
-  }: IAxiosHttpRequestArgs): Promise<any> {
+                           route,
+                           authToken,
+                           data,
+                           headers,
+                           additionalConfigs,
+                         }: IAxiosHttpRequestArgs): Promise<any> {
     return this.callEndpoint({
       route,
       method: "PATCH",
@@ -187,12 +187,12 @@ export class RestClient {
   }
 
   public async sendPut({
-    route,
-    authToken,
-    data,
-    headers,
-    additionalConfigs,
-  }: IAxiosHttpRequestArgs): Promise<any> {
+                         route,
+                         authToken,
+                         data,
+                         headers,
+                         additionalConfigs,
+                       }: IAxiosHttpRequestArgs): Promise<any> {
     return this.callEndpoint({
       route,
       method: "PUT",
@@ -204,13 +204,13 @@ export class RestClient {
   }
 
   private static prepareLogRecord({
-    route,
-    method,
-    headers,
-    data,
-    additionalConfigs,
-    params,
-  }: IAxiosCallEndpointArgs): string {
+                                    route,
+                                    method,
+                                    headers,
+                                    data,
+                                    additionalConfigs,
+                                    params,
+                                  }: IAxiosCallEndpointArgs): string {
     let logRecord = `Request: ${method} ${route}`;
     if (isSet(headers))
       logRecord = `${logRecord}\nHeaders: ${stringify(headers)}`;
@@ -219,7 +219,7 @@ export class RestClient {
 
     if (isSet(additionalConfigs)) {
       logRecord = `${logRecord}\nAdditional Configuration: ${stringify(
-        additionalConfigs
+          additionalConfigs
       )}`;
     }
 
@@ -227,7 +227,7 @@ export class RestClient {
       const jsonData = stringify(data);
       // We don't want to log anything that isn't json data
       logRecord = `${logRecord}\nData: ${jsonData === undefined ? "Some data, not JSON!" : jsonData
-        }`;
+      }`;
     }
     return logRecord;
   }

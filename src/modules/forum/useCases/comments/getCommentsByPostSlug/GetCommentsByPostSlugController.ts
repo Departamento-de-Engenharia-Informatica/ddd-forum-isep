@@ -18,8 +18,8 @@ export class GetCommentsByPostSlugController extends BaseController {
   async executeImpl (req: DecodedExpressRequest, res: express.Response): Promise<any> {
 
     const dto: GetCommentsByPostSlugRequestDTO = {
-      slug: req.query.slug,
-      offset: req.query.offset,
+      slug: req.query.slug as string,
+      offset: Number(req.query.offset),
       userId: req.decoded ? req.decoded.userId : null
     }
 
@@ -28,12 +28,12 @@ export class GetCommentsByPostSlugController extends BaseController {
 
       if (result.isLeft()) {
         const error = result.value;
-  
+
         switch (error.constructor) {
           default:
             return this.fail(res, error.getErrorValue().message);
         }
-        
+
       } else {
         const commentDetails = result.value.getValue();
         return this.ok<GetCommentsByPostSlugResponseDTO>(res, {

@@ -24,7 +24,6 @@ import { SubmitButton } from '../shared/components/button';
 import { TextUtil } from '../shared/utils/TextUtil';
 import { FullPageLoader } from '../shared/components/loader';
 import withVoting from '../modules/forum/hocs/withVoting';
-import { Points } from '../modules/forum/components/posts/points';
 
 interface DiscussionPageProps extends usersOperators.IUserOperators, forumOperators.IForumOperations {
   users: UsersState;
@@ -83,8 +82,8 @@ class DiscussionPage extends React.Component<DiscussionPageProps, DiscussionStat
     const { newCommentText } = this.state;
 
     if (!!newCommentText === false ||
-      TextUtil.atLeast(newCommentText, CommentUtil.minCommentLength) ||
-      TextUtil.atMost(newCommentText, CommentUtil.maxCommentLength)
+        TextUtil.atLeast(newCommentText, CommentUtil.minCommentLength) ||
+        TextUtil.atMost(newCommentText, CommentUtil.maxCommentLength)
     ) {
       toast.error(`Yeahhhhh, comments should be ${CommentUtil.minCommentLength} to ${CommentUtil.maxCommentLength} characters. Yours was ${newCommentText.length}. 🤠`, {
         autoClose: 3000
@@ -135,67 +134,67 @@ class DiscussionPage extends React.Component<DiscussionPageProps, DiscussionStat
     const comments = this.props.forum.comments;
 
     return (
-      <Layout>
-        <div className="header-container flex flex-row flex-center flex-between">
-          <BackNavigation
-            text="Back to all discussions"
-            to="/"
-          />
-          <ProfileButton
-            isLoggedIn={this.props.users.isAuthenticated}
-            username={this.props.users.isAuthenticated ? (this.props.users.user as User).username : ''}
-            onLogout={() => this.props.logout()}
-          />
-        </div>
-
-        {this.props.forum.isGettingPostBySlug ? (
-          ''
-        ) : (
-          <>
-
-            <Header
-              title={`"${post.title}"`}
-              isUpvotable={true}
-              onUpvoteClicked={() => this.props.upvotePost(post.slug)}
-              onDownvoteClicked={() => this.props.downvotePost(post.slug)}
-              points={post.points}
-              isLoggedIn={this.props.users.isAuthenticated}
+        <Layout>
+          <div className="header-container flex flex-row flex-center flex-between">
+            <BackNavigation
+                text="Back to all discussions"
+                to="/"
             />
-
-            <br/>
-            <br/>
-            <PostSummary
-              {...post as Post}
+            <ProfileButton
+                isLoggedIn={this.props.users.isAuthenticated}
+                username={this.props.users.isAuthenticated ? (this.props.users.user as User).username : ''}
+                onLogout={() => this.props.logout()}
             />
-            <h3>Leave a comment</h3>
-            <Editor
-              text={this.state.newCommentText}
-              maxLength={CommentUtil.maxCommentLength}
-              placeholder="Post your reply"
-              handleChange={(v: any) => this.updateValue('newCommentText', v)}
-            />
-            <SubmitButton
-              text="Post comment"
-              onClick={() => this.onSubmitComment()}
-            />
-          </>
-        )}
+          </div>
 
-        <br/>
-        <br/>
-        <br/>
-        {comments.map((c, i) => (
-          <PostComment
-            key={i}
-            onDownvoteClicked={() => this.props.downvoteComment(c.commentId)}
-            onUpvoteClicked={() => this.props.upvoteComment(c.commentId)}
-            isLoggedIn={this.props.users.isAuthenticated}
-            {...c}
-          />
-        ))}
+          {this.props.forum.isGettingPostBySlug ? (
+              ''
+          ) : (
+              <>
 
-        {this.props.forum.isCreatingReplyToPost ? <FullPageLoader/> : '' }
-      </Layout>
+                <Header
+                    title={`"${post.title}"`}
+                    isUpvotable={true}
+                    onUpvoteClicked={() => this.props.upvotePost(post.slug)}
+                    onDownvoteClicked={() => this.props.downvotePost(post.slug)}
+                    points={post.points}
+                    isLoggedIn={this.props.users.isAuthenticated}
+                />
+
+                <br/>
+                <br/>
+                <PostSummary
+                    {...post as Post}
+                />
+                <h3>Leave a comment</h3>
+                <Editor
+                    text={this.state.newCommentText}
+                    maxLength={CommentUtil.maxCommentLength}
+                    placeholder="Post your reply"
+                    handleChange={(v: any) => this.updateValue('newCommentText', v)}
+                />
+                <SubmitButton
+                    text="Post comment"
+                    onClick={() => this.onSubmitComment()}
+                />
+              </>
+          )}
+
+          <br/>
+          <br/>
+          <br/>
+          {comments.map((c, i) => (
+              <PostComment
+                  key={i}
+                  onDownvoteClicked={() => this.props.downvoteComment(c.commentId)}
+                  onUpvoteClicked={() => this.props.upvoteComment(c.commentId)}
+                  isLoggedIn={this.props.users.isAuthenticated}
+                  {...c}
+              />
+          ))}
+
+          {this.props.forum.isCreatingReplyToPost ? <FullPageLoader/> : '' }
+        </Layout>
     )
   }
 }
@@ -210,14 +209,14 @@ function mapStateToProps ({ users, forum }: { users: UsersState, forum: ForumSta
 
 function mapActionCreatorsToProps(dispatch: any) {
   return bindActionCreators(
-    {
-      ...usersOperators,
-      ...forumOperators
-    }, dispatch);
+      {
+        ...usersOperators,
+        ...forumOperators
+      }, dispatch);
 }
 
 export default connect(mapStateToProps, mapActionCreatorsToProps)(
-  withLogoutHandling(
-    withVoting(DiscussionPage)
-  )
+    withLogoutHandling(
+        withVoting(DiscussionPage)
+    )
 );
